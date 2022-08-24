@@ -1,12 +1,18 @@
 # install.packages("plumber")   //for installing plumber
 # https://www.rplumber.io/
 
-# api.R
+#* Home route
+#* @get /
+function() {
+  list(msg = "Hello this an API made for J Component for foundation of data analytics.
+       Sentimental analysis in E-Commerce products.
+       Team members are Sarath Adhithya, Rohan, Sai Teja")
+}
 
 #* Echo back the input
 #* @param msg The message to echo
 #* @get /echo
-function(msg="") {
+function(msg = "") {
   list(msg = paste0("The message is: '", msg, "'"))
 }
 
