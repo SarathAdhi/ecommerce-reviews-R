@@ -8,10 +8,3 @@ server$run(
   host = "0.0.0.0",
   port = as.numeric(port)
 )
-
-
-getCurrentPath <- function() {
-  currentPath <- gsub("/\\w*/", "/", gsub("/\\w*/", "/", getwd()))
-  return(currentPath)
-}
-getCurrentPath()

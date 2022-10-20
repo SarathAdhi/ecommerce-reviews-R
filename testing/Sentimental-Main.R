@@ -7,7 +7,9 @@ library(tm)
 library(wordcloud)
 library(syuzhet)
 
-reviews <- read.csv("C:/Users/Sai Teja/Downloads/Worksheet in fda jcomp rev 2.csv")
+options(warn = -1) # disable warning. Tp turn it on used warn=0
+
+reviews <- read.csv("S:/5th SEM/FDA - CSE3505/J Comp/project/app/testing/Samsung_Test_Dataset.csv")
 str(reviews)
 corpus <- iconv(reviews$text)
 corpus <- Corpus(VectorSource(corpus))
@@ -58,7 +60,7 @@ sentiment_data <- iconv(reviews$text)
 s <- get_nrc_sentiment((sentiment_data))
 s[1:2, ]
 
-# reviews_new<-write.csv(x=s,file="C:/Users/Sai Teja/Downloads/Samsung_Galaxy_M32_sentimentscores1.csv")
+reviews_new <- write.csv(x = s, file = "S:/5th SEM/FDA - CSE3505/J Comp/project/app/testing/sentimentScores_Test.csv")
 
 review_score <- colSums(s[, ])
 print(review_score)
@@ -77,7 +79,7 @@ library(stringr) # text cleaning and regular expressions
 # install.packages("tidytext")
 library(tidytext) # provides additional text mining functions
 
-df <- read.csv("C:/Users/Sai Teja/Downloads/Samsung_Galaxy_M32_sentimentscores1.csv")
+df <- read.csv("S:/5th SEM/FDA - CSE3505/J Comp/project/app/testing/sentimentScores_Test.csv")
 df <- df[2:length(df)]
 
 # Setting the margins
@@ -114,7 +116,7 @@ df[df$Scores == 0, length(df)] <- "Neutral"
 pos <- nrow(df[df$Scores == "Positive", ])
 neut <- nrow(df[df$Scores == "Neutral", ])
 neg <- nrow(df[df$Scores == "Negative", ])
-reviews_new <- write.csv(x = df, file = "C:/Users/Sai Teja/Downloads/Samsung_Galaxy_M32_sentimentscores1.csv")
+reviews_new <- write.csv(x = df, file = "S:/5th SEM/FDA - CSE3505/J Comp/project/app/testing/sentimentScores_Test.csv")
 library(ggplot2)
 # Plotting a barplot
 df3 <- data.frame(
