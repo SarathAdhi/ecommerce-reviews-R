@@ -1,17 +1,17 @@
 library(plumber)
 
-port <- Sys.getenv('PORT')
+port <- Sys.getenv("PORT")
 
 server <- plumb("plumber.R")
 
 server$run(
-  host = '0.0.0.0',
+  host = "0.0.0.0",
   port = as.numeric(port)
 )
 
 
 getCurrentPath <- function() {
-  currentPath <- gsub("/\\w*/","/",gsub("/\\w*/","/",getwd()))
+  currentPath <- gsub("/\\w*/", "/", gsub("/\\w*/", "/", getwd()))
   return(currentPath)
 }
 getCurrentPath()
