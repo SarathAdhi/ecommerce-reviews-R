@@ -9,7 +9,7 @@ library(syuzhet)
 
 options(warn = -1) # disable warning. Tp turn it on used warn=0
 
-reviews <- read.csv("S:/5th SEM/FDA - CSE3505/J Comp/project/app/testing/Samsung_Test_Dataset.csv")
+reviews <- read.csv("C:/Users/cocsa/OneDrive/Desktop/rpa_jconp_automation/JComp/project/app/testing/Samsung_Test_Dataset.csv")
 str(reviews)
 corpus <- iconv(reviews$text)
 corpus <- Corpus(VectorSource(corpus))
@@ -30,7 +30,7 @@ tdm <- TermDocumentMatrix(reviews_final)
 tdm <- as.matrix(tdm) # Each row represents each word that is there in the corpus
 # in alphabetical order and the column represents the numbern of times it occured
 # in each corpus
-tdm[1:10, 1:5]
+tdm[1:50, 1:5]
 
 par("mar")
 par(mar = c(6, 3, 3, 1))
@@ -60,17 +60,28 @@ sentiment_data <- iconv(reviews$text)
 s <- get_nrc_sentiment((sentiment_data))
 s[1:2, ]
 
-reviews_new <- write.csv(x = s, file = "S:/5th SEM/FDA - CSE3505/J Comp/project/app/testing/sentimentScores_Test.csv")
+reviews_new <- write.csv(x = s, file = "C:/Users/cocsa/OneDrive/Desktop/rpa_jconp_automation/JComp/project/app/testing/sentimentScores_Test.csv")
 
 review_score <- colSums(s[, ])
 print(review_score)
 
-barplot(colSums(s),
+b <- barplot(colSums(s),
   las = 2,
   col = rainbow(10),
   ylab = "Count",
-  main = "Sentiment"
+  main = "Sentiment",
+  beside=TRUE
 )
+
+
+dff <- table(s)
+dff
+percent <- (colSums(s) * 100) / sum(s)
+percent
+text(b, percent+5, percent, font=1, col=2:3)
+
+ggplot(dff,aes(x=factor(dff)))+
+  geom_bar()
 
 # install.packages("tidyverse")
 library(tidyverse) # data manipulation & plotting
@@ -79,12 +90,12 @@ library(stringr) # text cleaning and regular expressions
 # install.packages("tidytext")
 library(tidytext) # provides additional text mining functions
 
-df <- read.csv("S:/5th SEM/FDA - CSE3505/J Comp/project/app/testing/sentimentScores_Test.csv")
+df <- read.csv("C:/Users/cocsa/OneDrive/Desktop/rpa_jconp_automation/JComp/project/app/testing/sentimentScores_Test.csv")
 df <- df[2:length(df)]
 
 # Setting the margins
 par("mar")
-par(mar = c(6, 3, 3, 1))
+par(mar = c(1, 1, 1, 1))
 # par(mar=c(6,6,6,1))
 par("mar")
 
@@ -116,7 +127,7 @@ df[df$Scores == 0, length(df)] <- "Neutral"
 pos <- nrow(df[df$Scores == "Positive", ])
 neut <- nrow(df[df$Scores == "Neutral", ])
 neg <- nrow(df[df$Scores == "Negative", ])
-reviews_new <- write.csv(x = df, file = "S:/5th SEM/FDA - CSE3505/J Comp/project/app/testing/sentimentScores_Test.csv")
+reviews_new <- write.csv(x = df, file = "C:/Users/cocsa/OneDrive/Desktop/rpa_jconp_automation/JComp/project/app/testing/sentimentScores_Test.csv")
 library(ggplot2)
 # Plotting a barplot
 df3 <- data.frame(
@@ -124,8 +135,16 @@ df3 <- data.frame(
   value = c(pos, neut, neg)
 )
 df3
+
+df3_count <- sum(df3$value)
+df3_count
+
 ggplot(data = df3, aes(x = label, y = value)) +
-  geom_bar(stat = "identity")
+  geom_bar(stat = "identity") + geom_text(
+    aes(label=after_stat(round(((y*100)/df3_count), 2)), group=1),
+    nudge_y=0.125,
+    va='bottom',
+  )
 
 x <- c(pos, neut, neg)
 labels <- c("Positive", "Neutral", "Negative")
@@ -190,8 +209,10 @@ decision_tree_accuracy
 # plot the decision tree
 summary(y_pred)
 
-plot(classifier)
-text(classifier)
+#install.packages("rpart.plot")
+library(rpart.plot)
+prp(classifier)
+
 
 # feature scaling
 training_set[-length(training_set)] <-
@@ -222,6 +243,9 @@ y_pred <- as.vector(y_pred)
 # making the confusion matrix
 cm <- table(test_set[, length(test_set)], y_pred)
 ann_accuracy <- (cm[1] + cm[5] + cm[9]) / sum(as.vector(cm)) * 100
+
+naive_accuracy
+decision_tree_accuracy
 ann_accuracy
 h2o.shutdown()
 

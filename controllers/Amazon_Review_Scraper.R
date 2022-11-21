@@ -14,7 +14,7 @@ scrapReview <- function(productId) {
   reviewUrl <- product$reviewUrl
   reviewUrl
 
-  num <- 1:100
+  num <- 1:50
 
   library(rvest)
 
@@ -31,7 +31,7 @@ scrapReview <- function(productId) {
     productReviews <- c(productReviews, new_reviews)
   }
 
-  df <- data.frame(sno = c(1:length(productReviews)), text = productReviews)
+  df <- data.frame(text = productReviews)
   print(head(productReviews))
 
   write.csv(df, getCurrentPath("/reviews/all_reviews.csv"))

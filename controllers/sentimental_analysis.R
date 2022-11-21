@@ -8,8 +8,9 @@ library(tm)
 library(syuzhet)
 
 getSentimentalScore <- function() {
+  
   reviews <-
-    read.csv("S:/5th SEM/FDA - CSE3505/J Comp/project/app/reviews/all_reviews.csv")
+    read.csv("C:/Users/cocsa/OneDrive/Desktop/rpa_jconp_automation/JComp/project/app/reviews/all_reviews.csv")
   str(reviews)
   corpus <- iconv(reviews$text)
   corpus <- Corpus(VectorSource(corpus))
@@ -29,11 +30,11 @@ getSentimentalScore <- function() {
   s <- get_nrc_sentiment((sentiment_data))
   s[1:5, ]
 
-  reviews_new <- write.csv(x = s, file = "S:/5th SEM/FDA - CSE3505/J Comp/project/app/sentimentScores.csv")
+  reviews_new <- write.csv(x = s, file = "C:/Users/cocsa/OneDrive/Desktop/rpa_jconp_automation/JComp/project/app/sentimentScores.csv")
 
   review_score <- colSums(s[, ])
 
-  df <- read.csv("S:/5th SEM/FDA - CSE3505/J Comp/project/app/sentimentScores.csv")
+  df <- read.csv("C:/Users/cocsa/OneDrive/Desktop/rpa_jconp_automation/JComp/project/app/sentimentScores.csv")
 
 
   library(dplyr)
@@ -70,7 +71,7 @@ getSentimentalScore <- function() {
   df$Scores <- factor(df$impression, labels = c(0, 1))
   head(df)
 
-  write.csv(x = df, file = "S:/5th SEM/FDA - CSE3505/J Comp/project/app/sentimentScores.csv")
+  write.csv(x = df, file = "C:/Users/cocsa/OneDrive/Desktop/rpa_jconp_automation/JComp/project/app/sentimentScores.csv")
 
   length <- length(df$impression)
 
